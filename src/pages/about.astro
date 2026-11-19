@@ -1,0 +1,51 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Picture from '../components/Picture.astro';
+import Icon from '../components/Icon.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import { credentials } from '../data/site';
+---
+<Layout title="About Emily Carter — TESOL-Certified English Teacher" description="Meet Emily Carter: a TESOL-certified English teacher with 5+ years of experience and 1,000+ students worldwide. Friendly, practical lessons personalised to your goals.">
+  <PageHero eyebrow="About Me" title="Hi, I'm" script="Emily Carter" text="An experienced English teacher, passionate about helping students achieve their language goals — with lessons that are friendly, effective and genuinely enjoyable." />
+  <section class="px-4 pb-12 sm:px-6">
+    <div class="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-2">
+      <div class="reveal overflow-hidden rounded-[2rem] shadow-[0_24px_50px_-28px_rgba(18,40,64,0.5)]">
+        <Picture name="about-portrait" alt="Emily Carter teaching an online English lesson from her desk" width={1000} height={760} sizes="(max-width: 1024px) 92vw, 520px" imgClass="aspect-[4/3] w-full object-cover" />
+      </div>
+      <div class="reveal space-y-4 leading-relaxed text-ink-soft">
+        <h2 class="font-display text-2xl font-bold text-ink sm:text-3xl">Teaching English is the best job in the world</h2>
+        <p>I'm an experienced English teacher, passionate about helping students achieve their language goals. With a friendly and effective teaching style, I make learning English enjoyable and practical — every lesson is built around what <em>you</em> need to say, write and understand in real life.</p>
+        <p>I am TESOL certified and have taught more than 1,000 students from over 30 countries over the past 5+ years — from complete beginners taking their first steps to professionals preparing presentations and students chasing a Band 7.5 in IELTS.</p>
+        <p>My lessons are relaxed but structured. We laugh a lot, we speak a lot, and you always leave knowing exactly what improved and what to practise next. No boring textbooks for their own sake, no judgement — just steady, visible progress.</p>
+        <ul class="grid gap-3 pt-2 sm:grid-cols-3">
+          {credentials.map((c) => (
+            <li class="rounded-2xl bg-paper p-4 text-center shadow-sm border border-line">
+              <span class="mx-auto grid h-11 w-11 place-items-center rounded-full bg-sky-soft text-ink"><Icon name={c.icon} size={21} /></span>
+              <strong class="font-display mt-2 block text-sm font-bold text-ink">{c.title}</strong>
+              <span class="text-xs">{c.text}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+  <section class="px-4 pb-14 sm:px-6">
+    <div class="mx-auto grid max-w-6xl gap-5 md:grid-cols-3">
+      {[
+        { t: 'Personal, always', d: 'Your goals, your level, your pace. Every plan is written for one student: you.' },
+        { t: 'Practical from day one', d: 'We practise the English of your real life — your job, your exam, your travels — not abstract exercises.' },
+        { t: 'Progress you can see', d: 'Clear milestones, regular level checks and honest feedback, so you always know how far you have come.' },
+      ].map((v) => (
+        <div class="card-hover reveal rounded-3xl border border-line bg-paper p-7">
+          <h2 class="font-display text-xl font-bold">{v.t}</h2>
+          <p class="mt-2 text-[15px] leading-relaxed text-ink-soft">{v.d}</p>
+        </div>
+      ))}
+    </div>
+    <div class="reveal mt-10 text-center">
+      <a href="/book/" class="btn btn-navy">Book a Free Trial Lesson <Icon name="arrow" size={17} /></a>
+    </div>
+  </section>
+  <CtaBanner />
+</Layout>

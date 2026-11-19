@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://emily-carter.pages.dev/sitemap-index.xml

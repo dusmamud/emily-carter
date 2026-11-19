@@ -1,0 +1,20 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CourseCard from '../../components/CourseCard.astro';
+import CtaBanner from '../../components/CtaBanner.astro';
+import { courses } from '../../data/site';
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'ItemList',
+  itemListElement: courses.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.title, url: `https://emily-carter.pages.dev/courses/${c.slug}/` })),
+};
+---
+<Layout title="English Courses — General, Business, Conversation & Exam Preparation | Emily Carter" description="Four personalised English courses with Emily Carter: General English, Business English, Conversation Skills and IELTS & TOEFL Exam Preparation. Levels A1–C1, from £24 per lesson." jsonLd={jsonLd}>
+  <PageHero eyebrow="My Courses" title="What I" script="Teach" text="Every course starts with a free trial lesson and a personal plan. Choose the goal that sounds like you — or let me recommend one." />
+  <section class="px-4 pb-14 sm:px-6">
+    <div class="mx-auto grid max-w-6xl gap-5 sm:grid-cols-2">
+      {courses.map((c) => <CourseCard course={c} />)}
+    </div>
+  </section>
+  <CtaBanner />
+</Layout>

@@ -1,0 +1,55 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Picture from '../../components/Picture.astro';
+import Icon from '../../components/Icon.astro';
+import CtaBanner from '../../components/CtaBanner.astro';
+import { posts, site, type Post } from '../../data/site';
+
+export function getStaticPaths() {
+  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+interface Props { post: Post }
+const { post } = Astro.props;
+const others = posts.filter((p) => p.slug !== post.slug);
+const fmt = (d: string) => new Date(d + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'BlogPosting',
+  headline: post.title, description: post.excerpt, datePublished: post.date,
+  image: `${site.url}/images/${post.image}-1200.jpg`,
+  author: { '@type': 'Person', name: 'Emily Carter', jobTitle: 'English Teacher' },
+};
+---
+<Layout title={`${post.title} | Emily Carter`} description={post.excerpt} jsonLd={jsonLd} ogType="article" publishedTime={post.date} ogImage={`${site.url}/images/${post.image}-1200.jpg`}>
+  <article class="px-4 pb-12 pt-12 sm:px-6 sm:pt-16">
+    <div class="mx-auto max-w-3xl">
+      <p class="text-center text-xs font-bold uppercase tracking-[0.22em] text-gold-deep"><time datetime={post.date}>{fmt(post.date)}</time> · {post.readTime} · By Emily Carter</p>
+      <h1 class="font-display mt-4 text-center text-3xl font-bold leading-[1.15] sm:text-[2.6rem]">{post.title}</h1>
+      <div class="reveal mt-8 overflow-hidden rounded-[2rem]">
+        <Picture name={post.image} alt={post.imageAlt} width={1200} height={700} eager={true} sizes="(max-width: 768px) 92vw, 768px" imgClass="aspect-[12/7] w-full object-cover" />
+      </div>
+      <div class="mt-9 space-y-5 text-[17px] leading-[1.75] text-ink-soft">
+        {post.body.map((para) => <p>{para}</p>)}
+      </div>
+      <div class="mt-10 rounded-3xl bg-cream-2 p-6 text-center sm:p-8">
+        <p class="font-script text-3xl">Want a plan made just for you?</p>
+        <p class="mx-auto mt-2 max-w-md text-ink-soft">Book a free 25-minute trial lesson and leave with a personal plan for your level and goals.</p>
+        <a href="/book/" class="btn btn-navy mt-5">Book a Free Trial Lesson <Icon name="arrow" size={17} /></a>
+      </div>
+    </div>
+  </article>
+  <section class="px-4 pb-12 sm:px-6" aria-label="More articles">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="font-display reveal text-2xl font-bold">Keep reading</h2>
+      <div class="mt-5 grid gap-5 md:grid-cols-2">
+        {others.map((p) => (
+          <a href={`/blog/${p.slug}/`} class="card-hover reveal block rounded-3xl border border-line bg-paper p-6">
+            <span class="text-xs font-bold uppercase tracking-wider text-gold-deep">{p.readTime}</span>
+            <span class="font-display mt-2 block text-lg font-bold leading-snug">{p.title}</span>
+            <span class="mt-2 block text-[15px] text-ink-soft">{p.excerpt}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CtaBanner />
+</Layout>

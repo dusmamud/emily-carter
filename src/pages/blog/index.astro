@@ -1,0 +1,30 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Picture from '../../components/Picture.astro';
+import Icon from '../../components/Icon.astro';
+import CtaBanner from '../../components/CtaBanner.astro';
+import { posts } from '../../data/site';
+const fmt = (d: string) => new Date(d + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+<Layout title="Blog — English Learning Tips from Emily Carter" description="Practical English learning tips: fluency habits, IELTS writing fixes and business English phrases for meetings, from teacher Emily Carter.">
+  <PageHero eyebrow="Blog" title="Emily's" script="Notebook" text="Free, practical tips from my lessons — the same advice I give my students, written down." />
+  <section class="px-4 pb-14 sm:px-6">
+    <div class="mx-auto grid max-w-6xl gap-5 md:grid-cols-3">
+      {posts.map((p) => (
+        <article class="card-hover reveal flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-paper">
+          <a href={`/blog/${p.slug}/`} tabindex="-1" aria-hidden="true">
+            <Picture name={p.image} alt={p.imageAlt} width={800} height={520} sizes="(max-width: 768px) 92vw, 360px" imgClass="aspect-[3/2] w-full object-cover" />
+          </a>
+          <div class="flex flex-1 flex-col p-6">
+            <p class="text-xs font-bold uppercase tracking-wider text-gold-deep"><time datetime={p.date}>{fmt(p.date)}</time> · {p.readTime}</p>
+            <h2 class="font-display mt-2 text-lg font-bold leading-snug"><a href={`/blog/${p.slug}/`} class="hover:underline">{p.title}</a></h2>
+            <p class="mt-2 flex-1 text-[15px] leading-relaxed text-ink-soft">{p.excerpt}</p>
+            <span class="mt-4 inline-flex items-center gap-2 font-semibold">Read article <Icon name="arrow" size={16} /></span>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+  <CtaBanner />
+</Layout>

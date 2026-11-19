@@ -1,0 +1,8 @@
+---
+import Icon from './Icon.astro';
+interface Props { class?: string }
+const { class: cls = 'flex gap-0.5 text-gold' } = Astro.props;
+---
+<span class={cls} role="img" aria-label="Rated 5 out of 5 stars">
+  {[0,1,2,3,4].map(() => <Icon name="star" size={16} />)}
+</span>

@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import { contact } from '../data/site';
+---
+<Layout title="Terms of Service — Emily Carter" description="Terms for English lessons with Emily Carter: booking, payment, rescheduling and cancellations." robots="noindex">
+  <PageHero eyebrow="Legal" title="Terms of Service" text="Last updated: November 2026. Demonstration terms for a mock website." />
+  <section class="px-4 pb-16 sm:px-6">
+    <div class="mx-auto max-w-3xl space-y-5 leading-[1.75] text-ink-soft">
+      <h2 class="font-display text-2xl font-bold text-ink">Lessons & booking</h2>
+      <p>Lessons are 50 minutes and take place online by video call. The first trial lesson (25 minutes) is free and carries no obligation. Lesson packs are valid for 6 months from purchase.</p>
+      <h2 class="font-display text-2xl font-bold text-ink">Rescheduling & cancellations</h2>
+      <p>You may reschedule any lesson free of charge with at least 12 hours notice. Lessons cancelled with less notice are charged in full. If Emily must cancel, your lesson is rescheduled or refunded in full — your choice.</p>
+      <h2 class="font-display text-2xl font-bold text-ink">Payment & refunds</h2>
+      <p>Lessons and packs are paid in advance. Unused lessons in a pack may be refunded within 30 days of purchase, minus lessons already taken at the single-lesson rate.</p>
+      <h2 class="font-display text-2xl font-bold text-ink">Results</h2>
+      <p>Emily provides structured teaching, materials and feedback, but exam results and language progress also depend on the student's own practice. No specific score or outcome can be guaranteed.</p>
+      <h2 class="font-display text-2xl font-bold text-ink">Contact</h2>
+      <p>Questions about these terms: {contact.email}.</p>
+    </div>
+  </section>
+</Layout>

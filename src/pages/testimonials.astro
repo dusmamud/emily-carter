@@ -1,0 +1,24 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import TestimonialCard from '../components/TestimonialCard.astro';
+import Stars from '../components/Stars.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import { testimonials } from '../data/site';
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'Person', name: 'Emily Carter', jobTitle: 'English Teacher',
+  aggregateRating: { '@type': 'AggregateRating', ratingValue: '5.0', reviewCount: '1000' },
+  review: testimonials.map((t) => ({ '@type': 'Review', author: { '@type': 'Person', name: t.name }, reviewBody: t.quote, reviewRating: { '@type': 'Rating', ratingValue: '5' } })),
+};
+---
+<Layout title="Student Testimonials — What My Students Say | Emily Carter" description="Real results from Emily Carter's English students: IELTS 6.0 to 7.5, A2 to B2, first presentations and new jobs — all starting with a free trial lesson." jsonLd={jsonLd}>
+  <PageHero eyebrow="Testimonials" title="What My Students" script="Say" text="1,000+ students from more than 30 countries — here is what a few of them say, and the results they achieved.">
+    <div class="mt-5 flex items-center justify-center gap-3"><Stars /><span class="font-semibold">5.0 average from 1,000+ students</span></div>
+  </PageHero>
+  <section class="px-4 pb-14 sm:px-6">
+    <div class="mx-auto grid max-w-6xl gap-5 md:grid-cols-2 lg:grid-cols-3">
+      {testimonials.map((t) => <TestimonialCard t={t} />)}
+    </div>
+  </section>
+  <CtaBanner />
+</Layout>

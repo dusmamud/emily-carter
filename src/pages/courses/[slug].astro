@@ -1,0 +1,96 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Picture from '../../components/Picture.astro';
+import Icon from '../../components/Icon.astro';
+import CtaBanner from '../../components/CtaBanner.astro';
+import { courses, gbp, type Course } from '../../data/site';
+
+export function getStaticPaths() {
+  return courses.map((course) => ({ params: { slug: course.slug }, props: { course } }));
+}
+interface Props { course: Course }
+const { course } = Astro.props;
+const others = courses.filter((c) => c.slug !== course.slug);
+const images: Record<string, string> = {
+  'general-english': 'blog-speaking',
+  'business-english': 'blog-business',
+  'conversation-skills': 'about-portrait',
+  'exam-preparation': 'blog-ielts',
+};
+const img = images[course.slug] ?? 'about-desk';
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'Course',
+  name: `${course.title} with Emily Carter`,
+  description: course.description,
+  provider: { '@type': 'Person', name: 'Emily Carter', jobTitle: 'English Teacher' },
+  hasCourseInstance: { '@type': 'CourseInstance', courseMode: 'online', courseWorkload: course.duration },
+  offers: { '@type': 'Offer', price: String(course.priceFrom), priceCurrency: 'GBP' },
+};
+---
+<Layout title={`${course.title} Lessons Online — Emily Carter, English Teacher`} description={`${course.description} Levels ${course.level}. ${course.duration}, from ${gbp(course.priceFrom)} per lesson. Book a free trial.`} jsonLd={jsonLd}>
+  <section class="px-4 pb-10 pt-12 sm:px-6 sm:pt-16">
+    <div class="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-2">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-[0.22em] text-gold-deep">Course · {course.level}</p>
+        <h1 class="font-display mt-3 text-4xl font-bold leading-[1.08] sm:text-5xl">{course.title}</h1>
+        <p class="mt-4 max-w-lg text-lg leading-relaxed text-ink-soft">{course.description}</p>
+        <dl class="mt-6 grid max-w-lg grid-cols-3 gap-3 text-center">
+          <div class="rounded-2xl border border-line bg-paper p-3"><dt class="text-xs font-bold uppercase tracking-wide text-ink-soft">Level</dt><dd class="font-display mt-1 font-bold">{course.level.split(' ')[0]}</dd></div>
+          <div class="rounded-2xl border border-line bg-paper p-3"><dt class="text-xs font-bold uppercase tracking-wide text-ink-soft">Lesson</dt><dd class="font-display mt-1 font-bold">50 min</dd></div>
+          <div class="rounded-2xl border border-line bg-paper p-3"><dt class="text-xs font-bold uppercase tracking-wide text-ink-soft">From</dt><dd class="font-display mt-1 font-bold">{gbp(course.priceFrom)}</dd></div>
+        </dl>
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a href={`/book/?course=${course.slug}`} class="btn btn-navy">Book a Free Trial Lesson <Icon name="arrow" size={17} /></a>
+          <a href="/pricing/" class="btn btn-outline">See Pricing</a>
+        </div>
+      </div>
+      <div class="reveal overflow-hidden rounded-[2rem] shadow-[0_24px_50px_-28px_rgba(18,40,64,0.5)]">
+        <Picture name={img} alt={`${course.title} lesson with Emily Carter`} width={1000} height={760} eager={true} sizes="(max-width: 1024px) 92vw, 520px" imgClass="aspect-[4/3] w-full object-cover" />
+      </div>
+    </div>
+  </section>
+
+  <section class="px-4 py-8 sm:px-6" aria-label="What you will achieve">
+    <div class="mx-auto grid max-w-6xl gap-10 lg:grid-cols-2">
+      <div class="reveal">
+        <h2 class="font-display text-2xl font-bold sm:text-3xl">What you'll be able to do</h2>
+        <ul class="mt-5 space-y-3">
+          {course.outcomes.map((o) => <li class="flex gap-3"><span class="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-gold text-ink"><Icon name="check" size={14} /></span><span class="leading-relaxed text-ink-soft">{o}</span></li>)}
+        </ul>
+        <h2 class="font-display mt-9 text-2xl font-bold sm:text-3xl">Who this course is for</h2>
+        <ul class="mt-5 space-y-3">
+          {course.whoFor.map((o) => <li class="flex gap-3"><span class="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-sky-soft text-ink"><Icon name="users" size={14} /></span><span class="leading-relaxed text-ink-soft">{o}</span></li>)}
+        </ul>
+      </div>
+      <div class="reveal">
+        <h2 class="font-display text-2xl font-bold sm:text-3xl">Your curriculum</h2>
+        <ol class="mt-5 space-y-4">
+          {course.curriculum.map((m, i) => (
+            <li class="rounded-2xl border border-line bg-paper p-5">
+              <p class="text-xs font-bold uppercase tracking-wider text-gold-deep">Module {i + 1}</p>
+              <h3 class="font-display mt-1 text-lg font-bold">{m.title}</h3>
+              <p class="mt-1 text-[15px] leading-relaxed text-ink-soft">{m.text}</p>
+            </li>
+          ))}
+        </ol>
+        <p class="mt-5 rounded-2xl bg-cream-2 p-5 text-[15px] leading-relaxed">Every student's plan is adjusted after the free trial — modules move, grow or shrink to match your goals and your exam or work deadlines.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-4 py-10 sm:px-6" aria-label="Other courses">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="font-display reveal text-2xl font-bold sm:text-3xl">Explore other courses</h2>
+      <div class="mt-6 grid gap-4 sm:grid-cols-3">
+        {others.map((c) => (
+          <a href={`/courses/${c.slug}/`} class="card-hover reveal rounded-3xl border border-line bg-paper p-6">
+            <span class="grid h-12 w-12 place-items-center rounded-full bg-sky-soft text-ink"><Icon name={c.icon} size={22} /></span>
+            <span class="font-display mt-3 block text-lg font-bold">{c.title}</span>
+            <span class="mt-1 block text-sm text-ink-soft">{c.short}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CtaBanner />
+</Layout>

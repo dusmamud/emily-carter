@@ -1,0 +1,22 @@
+---
+import Picture from './Picture.astro';
+import Icon from './Icon.astro';
+---
+<section class="px-4 pb-16 pt-4 sm:px-6" aria-label="Start learning">
+  <div class="on-dark reveal mx-auto grid max-w-6xl overflow-hidden rounded-[2rem] bg-ink text-white md:grid-cols-[300px_1fr]">
+    <div class="relative hidden md:block">
+      <Picture name="cta-desk" alt="Emily's desk with notebook, pencils and books, ready for a lesson" width={600} height={500} sizes="300px" class="block h-full" imgClass="h-full w-full object-cover" />
+    </div>
+    <div class="grid items-center gap-6 p-7 sm:p-10 lg:grid-cols-[1fr_auto]">
+      <div>
+        <p class="font-script text-3xl text-gold sm:text-4xl">Start your English journey today!</p>
+        <h2 class="font-display mt-3 text-2xl font-bold sm:text-3xl">Ready to improve your English?</h2>
+        <p class="mt-2 max-w-md text-white/85">Get in touch and let's reach your goals together. Your first trial lesson is free.</p>
+      </div>
+      <div class="flex flex-col gap-3">
+        <a href="/book/" class="btn btn-gold" data-magnetic>Book a Free Trial Lesson <Icon name="arrow" size={18} /></a>
+        <a href="/contact/" class="btn border border-white/40 text-white hover:bg-white/10">Contact Me</a>
+      </div>
+    </div>
+  </div>
+</section>

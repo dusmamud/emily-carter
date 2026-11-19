@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import { contact } from '../data/site';
+---
+<Layout title="Privacy Policy — Emily Carter" description="How Emily Carter's website handles your personal data." robots="noindex">
+  <PageHero eyebrow="Legal" title="Privacy Policy" text="Last updated: November 2026. This is a demonstration policy for a mock website." />
+  <section class="px-4 pb-16 sm:px-6">
+    <div class="prose-like mx-auto max-w-3xl space-y-5 leading-[1.75] text-ink-soft">
+      <h2 class="font-display text-2xl font-bold text-ink">What we collect</h2>
+      <p>When you use the booking or contact forms, we collect the details you provide — your name, email address, course interest, level and message — only to respond to your enquiry and arrange lessons.</p>
+      <h2 class="font-display text-2xl font-bold text-ink">How we use it</h2>
+      <p>Your details are used to reply to you, schedule lessons and send lesson-related messages. We never sell your data, and we do not send marketing emails without your clear consent.</p>
+      <h2 class="font-display text-2xl font-bold text-ink">Cookies & analytics</h2>
+      <p>This website is a static site and sets no tracking cookies by default. If privacy-friendly analytics are added later, this policy will be updated first.</p>
+      <h2 class="font-display text-2xl font-bold text-ink">Your rights</h2>
+      <p>You can ask what data we hold about you, ask for it to be corrected, or ask for it to be deleted at any time by emailing {contact.email}. We respond within 30 days.</p>
+      <h2 class="font-display text-2xl font-bold text-ink">Contact</h2>
+      <p>Questions about this policy: {contact.email}.</p>
+    </div>
+  </section>
+</Layout>
