@@ -1,0 +1,76 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import { steps } from '../data/site';
+
+const anatomy = [
+  { time: '0–5 min', title: 'Warm-up chat', text: 'We start by talking — about your week, your news, a photo you took. Real conversation from minute one, and a gentle review of last lesson’s phrases.' },
+  { time: '5–15 min', title: 'Review & homework check', text: 'We look at your short homework together, fix the important mistakes, and celebrate what improved. Nothing is ever marked in scary red pen.' },
+  { time: '15–40 min', title: 'New language, practised live', text: 'The main topic of the day — a grammar point, a set of phrases, an exam strategy — introduced simply, then practised in speaking straight away.' },
+  { time: '40–48 min', title: 'Real-life practice', text: 'Role plays, discussions, mock interviews or exam tasks: you use the new language in a situation that matches your real goal.' },
+  { time: '48–50 min', title: 'Wrap-up & mini homework', text: 'Emily summarises your new phrases, notes your progress in your file, and sets 10–20 minutes of practical homework for the week.' },
+];
+const included = [
+  ['book', 'All materials included', 'Slides, worksheets, phrase sheets and exam papers are provided digitally — no textbooks to buy, ever.'],
+  ['doc', 'Progress report every 10 lessons', 'A written report in plain CEFR terms: what improved, what comes next, and how close you are to your goal.'],
+  ['chat', 'Support between lessons', 'A question about homework or a phrase you heard? Message Emily and get an answer before your next lesson.'],
+  ['calendar', 'Flexible rescheduling', 'Free rescheduling with 12 hours notice, and packs valid for 6 months. Busy life never wastes your lessons.'],
+];
+---
+<Layout title="How Lessons Work — Inside a 50-Minute English Lesson | Emily Carter" description="Exactly how Emily Carter's online English lessons work: the 50-minute lesson anatomy, what is included, homework, progress reports and rescheduling rules.">
+  <PageHero eyebrow="How It Works" title="How Your Lessons" script="Work" text="No mystery, no surprises. Here is exactly what happens before, during and after every lesson — and what you get between them." />
+
+  <section class="px-4 pb-6 sm:px-6" aria-label="Getting started">
+    <div class="mx-auto max-w-6xl">
+      <ol class="grid gap-5 md:grid-cols-3">
+        {steps.map((s, i) => (
+          <li class="card-hover reveal relative rounded-3xl border border-line bg-paper p-7">
+            <span class="font-display grid h-12 w-12 place-items-center rounded-full bg-ink text-lg font-bold text-gold" aria-hidden="true">{i + 1}</span>
+            <h2 class="font-display mt-4 text-xl font-bold">{s.title}</h2>
+            <p class="mt-2 text-[15px] leading-relaxed text-ink-soft">{s.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="px-4 py-12 sm:px-6" aria-label="Inside a lesson">
+    <div class="mx-auto max-w-3xl">
+      <div class="reveal text-center">
+        <p class="text-xs font-bold uppercase tracking-[0.22em] text-gold-deep">Inside a Lesson</p>
+        <h2 class="font-display mt-2 text-3xl font-bold sm:text-4xl">Anatomy of a 50-Minute Lesson</h2>
+      </div>
+      <ol class="mt-9 space-y-4">
+        {anatomy.map((a) => (
+          <li class="reveal flex gap-4 rounded-3xl border border-line bg-paper p-6 sm:gap-6">
+            <span class="font-display h-fit shrink-0 rounded-full bg-cream-2 px-3.5 py-1.5 text-sm font-bold whitespace-nowrap">{a.time}</span>
+            <span><h3 class="font-display text-lg font-bold">{a.title}</h3><p class="mt-1 text-[15px] leading-relaxed text-ink-soft">{a.text}</p></span>
+          </li>
+        ))}
+      </ol>
+      <p class="reveal mt-6 rounded-3xl bg-sky-soft p-6 text-[15px] leading-relaxed"><strong>What you need:</strong> a phone, tablet or computer, an internet connection, and a notebook you like. Emily provides everything else. Kids’ lessons are shorter — 25 or 40 minutes — with the same structure and more games.</p>
+    </div>
+  </section>
+
+  <section class="px-4 py-10 sm:px-6" aria-label="What is included">
+    <div class="mx-auto max-w-6xl">
+      <div class="reveal text-center">
+        <p class="text-xs font-bold uppercase tracking-[0.22em] text-gold-deep">Included</p>
+        <h2 class="font-display mt-2 text-3xl font-bold sm:text-4xl">Everything in Every Lesson</h2>
+      </div>
+      <div class="mt-9 grid gap-5 sm:grid-cols-2">
+        {included.map(([icon, t, d]) => (
+          <div class="card-hover reveal rounded-3xl border border-line bg-paper p-7">
+            <span class="grid h-12 w-12 place-items-center rounded-full bg-cream-2"><Icon name={icon} size={22} /></span>
+            <h3 class="font-display mt-4 text-xl font-bold">{t}</h3>
+            <p class="mt-2 text-[15px] leading-relaxed text-ink-soft">{d}</p>
+          </div>
+        ))}
+      </div>
+      <p class="reveal mt-8 text-center text-ink-soft">Questions about cancelling or refunds? Read the plain-English <a href="/policies/" class="font-semibold text-ink underline decoration-gold decoration-2 underline-offset-4">lesson policies</a> — no small print.</p>
+    </div>
+  </section>
+  <CtaBanner />
+</Layout>

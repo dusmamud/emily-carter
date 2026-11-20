@@ -99,12 +99,20 @@ const levels = ['A1 — Beginner', 'A2 — Elementary', 'B1 — Intermediate', '
     </div>
   </section>
   <script>
-    // Preselect course from ?course=<slug> (client-side; page is prerendered)
-    const slug = new URLSearchParams(window.location.search).get('course');
+    // Preselect course from ?course=<slug> and level from ?level=A1..C1
+    // (client-side; page is prerendered). Used by course pages + level test.
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get('course');
     if (slug) {
       const map: Record<string, string> = { 'general-english': 'General English', 'business-english': 'Business English', 'conversation-skills': 'Conversation Skills', 'exam-preparation': 'Exam Preparation' };
       const sel = document.getElementById('bk-course') as HTMLSelectElement | null;
       if (sel && map[slug]) sel.value = map[slug];
+    }
+    const lvl = params.get('level');
+    if (lvl) {
+      const lmap: Record<string, string> = { A1: 'A1 — Beginner', A2: 'A2 — Elementary', B1: 'B1 — Intermediate', B2: 'B2 — Upper Intermediate', C1: 'C1 — Advanced' };
+      const lsel = document.getElementById('bk-level') as HTMLSelectElement | null;
+      if (lsel && lmap[lvl]) lsel.value = lmap[lvl];
     }
   </script>
 </Layout>

@@ -1,0 +1,71 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { courses, posts, faqs, resources, cefrLevels } from '../data/site';
+
+const index = [
+  ...courses.map((c) => ({ title: c.title, type: 'Course', href: `/courses/${c.slug}/`, text: `${c.short} ${c.level}. From £${c.priceFrom} per lesson.` })),
+  ...posts.map((p) => ({ title: p.title, type: 'Blog article', href: `/blog/${p.slug}/`, text: p.excerpt })),
+  ...resources.map((r) => ({ title: r.title, type: 'Free resource', href: `/resources/${r.slug}/`, text: r.description })),
+  ...faqs.map((f) => ({ title: f.q, type: 'FAQ', href: '/faq/', text: f.a })),
+  ...cefrLevels.map((l) => ({ title: `${l.code} — ${l.name}`, type: 'Level guide', href: '/levels/', text: l.canDo.join(' ') })),
+  { title: 'Free English Level Test', type: 'Tool', href: '/level-test/', text: '12 questions, instant CEFR A1–C1 result and a course recommendation.' },
+  { title: 'How Lessons Work', type: 'Page', href: '/how-it-works/', text: 'The 50-minute lesson anatomy, materials, homework and progress reports.' },
+  { title: 'Student Results', type: 'Page', href: '/results/', text: 'IELTS and TOEFL before-and-after results and CEFR progress stories.' },
+  { title: 'Lesson Schedule & Availability', type: 'Page', href: '/schedule/', text: 'Weekly lesson times in UK time and current trial spaces.' },
+  { title: 'Pricing', type: 'Page', href: '/pricing/', text: 'Free trial, single lessons and lesson packs with honest prices.' },
+  { title: 'English for Kids & Teens', type: 'Page', href: '/for-kids-teens/', text: 'Safe, fun lessons for ages 7–17 with parent progress reports.' },
+  { title: 'English for Adults', type: 'Page', href: '/for-adults/', text: 'Flexible lessons for work, exams and everyday life.' },
+  { title: 'Lesson Policies', type: 'Page', href: '/policies/', text: 'Rescheduling, pack validity, payment and refunds in plain English.' },
+];
+---
+<Layout title="Search — Emily Carter, English Teacher" description="Search Emily Carter's courses, blog articles, free resources, FAQs and level guides." robots="noindex">
+  <PageHero eyebrow="Search" title="Search the" script="Site" text="Find courses, articles, free study sheets and answers — start typing and results appear instantly." />
+  <section class="px-4 pb-16 sm:px-6">
+    <div class="mx-auto max-w-3xl">
+      <form id="search-form" role="search" class="reveal">
+        <label for="search-input" class="mb-1.5 block font-semibold">What are you looking for?</label>
+        <div class="relative">
+          <input id="search-input" type="search" class="field !pl-12" placeholder="Try “IELTS”, “meeting phrases” or “kids”…" autocomplete="off" aria-describedby="search-status" />
+          <span class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-ink-soft"><Icon name="doc" size={19} /></span>
+        </div>
+        <p id="search-status" class="mt-2 text-sm text-ink-soft" aria-live="polite">Showing all {index.length} pages, courses, articles and answers.</p>
+      </form>
+      <ul id="search-results" class="mt-6 space-y-3">
+        {index.map((item) => (
+          <li data-search-item data-text={`${item.title} ${item.type} ${item.text}`.toLowerCase()}>
+            <a href={item.href} class="card-hover flex min-h-[44px] flex-col gap-1 rounded-3xl border border-line bg-paper p-5">
+              <span class="flex items-center gap-2.5">
+                <span class="rounded-full bg-sky-soft px-2.5 py-0.5 text-xs font-bold">{item.type}</span>
+                <span class="font-display text-lg font-bold leading-snug">{item.title}</span>
+              </span>
+              <span class="text-sm leading-relaxed text-ink-soft">{item.text}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p id="search-empty" class="hidden rounded-3xl bg-cream-2 p-6 text-center font-medium">No matches — try a different word, or <a href="/contact/" class="font-semibold underline">ask Emily directly</a>.</p>
+    </div>
+  </section>
+  <script>
+    const input = document.getElementById('search-input') as HTMLInputElement | null;
+    const items = Array.from(document.querySelectorAll<HTMLElement>('[data-search-item]'));
+    const status = document.getElementById('search-status');
+    const empty = document.getElementById('search-empty');
+    document.getElementById('search-form')?.addEventListener('submit', (e) => e.preventDefault());
+    input?.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase();
+      let visible = 0;
+      items.forEach((li) => {
+        const show = !q || (li.dataset.text || '').includes(q);
+        li.classList.toggle('hidden', !show);
+        if (show) visible += 1;
+      });
+      empty?.classList.toggle('hidden', visible !== 0);
+      if (status) status.textContent = q ? `${visible} result${visible === 1 ? '' : 's'} for “${input.value.trim()}”.` : `Showing all ${items.length} pages, courses, articles and answers.`;
+    });
+    const preset = new URLSearchParams(window.location.search).get('q');
+    if (preset && input) { input.value = preset; input.dispatchEvent(new Event('input')); }
+  </script>
+</Layout>

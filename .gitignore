@@ -6,3 +6,6 @@ screenshots/
 .env
 .env.*
 !.env.example
+.pw-browsers/
+test-results/
+playwright-report/

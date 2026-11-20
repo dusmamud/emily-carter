@@ -6,6 +6,6 @@ export default defineConfig({
   output: 'static',
   site: 'https://emilycarter-english.pages.dev',
   trailingSlash: 'always',
-  integrations: [sitemap()],
+  integrations: [sitemap({ filter: (page) => !page.includes('/search') })],
   vite: { plugins: [tailwindcss()] },
 });

@@ -1,0 +1,48 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Icon from '../../components/Icon.astro';
+import CtaBanner from '../../components/CtaBanner.astro';
+import { resources, phraseOfWeek } from '../../data/site';
+---
+<Layout title="Free English Learning Resources — Printable Study Sheets | Emily Carter" description="Free printable English study sheets from Emily Carter: daily phrases, IELTS writing structure, meeting phrases and a kids' word sheet — plus the phrase of the week.">
+  <PageHero eyebrow="Free Resources" title="Free Study" script="Sheets" text="The same sheets Emily gives her own students. Open any sheet and print it — or save it as a PDF from your browser's print menu. Completely free, no email needed." />
+
+  <section class="px-4 pb-8 sm:px-6">
+    <div class="mx-auto max-w-6xl">
+      <div class="reveal flex flex-col items-start gap-4 rounded-[2rem] bg-ink p-7 text-white sm:flex-row sm:items-center sm:p-9">
+        <span class="font-script text-4xl text-gold sm:text-5xl">{phraseOfWeek.phrase}</span>
+        <div>
+          <h2 class="font-display text-xl font-bold">Phrase of the Week</h2>
+          <p class="mt-1 max-w-xl text-white/85">{phraseOfWeek.meaning}</p>
+        </div>
+        <a href="/blog/" class="btn btn-gold no-print shrink-0 sm:ml-auto">More Free Tips <Icon name="arrow" size={17} /></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-4 py-8 sm:px-6" aria-label="Study sheets">
+    <div class="mx-auto grid max-w-6xl gap-5 sm:grid-cols-2">
+      {resources.map((r) => (
+        <article class="card-hover reveal flex h-full flex-col rounded-3xl border border-line bg-paper p-7">
+          <span class="flex items-center gap-2">
+            <span class="grid h-11 w-11 place-items-center rounded-full bg-cream-2"><Icon name="doc" size={20} /></span>
+            <span class="rounded-full bg-sky-soft px-3 py-1 text-xs font-bold">Level {r.level}</span>
+          </span>
+          <h2 class="font-display mt-4 text-xl font-bold">{r.title}</h2>
+          <p class="mt-2 flex-1 text-[15px] leading-relaxed text-ink-soft">{r.description}</p>
+          <a href={`/resources/${r.slug}/`} class="btn btn-navy mt-5 self-start">Open & Print Sheet <Icon name="arrow" size={16} /></a>
+        </article>
+      ))}
+    </div>
+    <div class="reveal mx-auto mt-10 max-w-3xl rounded-3xl bg-cream-2 p-7">
+      <h2 class="font-display text-xl font-bold">Emily's 3 study tips that actually work</h2>
+      <ol class="mt-3 list-decimal space-y-2 pl-5 text-[15px] leading-relaxed text-ink-soft">
+        <li><strong class="text-ink">Little and often:</strong> 15 minutes daily beats 2 hours once a week — your memory consolidates between sessions.</li>
+        <li><strong class="text-ink">Speak from day one:</strong> read phrases aloud, narrate your cooking, talk to yourself in the shower. Fluency is a speaking skill.</li>
+        <li><strong class="text-ink">Review with a gap:</strong> look at new phrases again after 1 day, 3 days and 1 week — spaced repetition makes them stick.</li>
+      </ol>
+    </div>
+  </section>
+  <CtaBanner />
+</Layout>

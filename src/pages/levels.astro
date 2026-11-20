@@ -1,0 +1,37 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import { cefrLevels } from '../data/site';
+---
+<Layout title="CEFR Levels Explained — A1, A2, B1, B2, C1 Guide | Emily Carter" description="What each CEFR level really means: can-do statements for A1–C1, typical study hours per level, and which Emily Carter course fits your level.">
+  <PageHero eyebrow="Level Guide" title="English Levels," script="Explained Simply" text="CEFR levels (A1–C1) are how universities, employers and exams describe English ability. Here is what each level lets you do — and how long the next step usually takes." />
+
+  <section class="px-4 pb-14 sm:px-6">
+    <div class="mx-auto max-w-4xl space-y-5">
+      {cefrLevels.map((l) => (
+        <article class="reveal rounded-[2rem] border border-line bg-paper p-6 sm:p-8">
+          <div class="flex flex-wrap items-center gap-4">
+            <span class="font-display grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-ink text-2xl font-bold text-gold">{l.code}</span>
+            <div>
+              <h2 class="font-display text-2xl font-bold">{l.code} — {l.name}</h2>
+              <p class="text-sm font-semibold text-gold-deep">Typical study time: {l.hours}</p>
+            </div>
+            <a href={`/courses/${l.courseSlug}/`} class="btn btn-outline ml-auto !min-h-[44px]">Best fit: {l.course}</a>
+          </div>
+          <h3 class="mt-5 font-bold">At {l.code} you can:</h3>
+          <ul class="mt-2 grid gap-2 sm:grid-cols-3">
+            {l.canDo.map((c) => <li class="flex gap-2 rounded-2xl bg-cream p-3.5 text-sm leading-relaxed"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-gold-deep" />{c}</li>)}
+          </ul>
+        </article>
+      ))}
+      <div class="reveal rounded-[2rem] bg-cream-2 p-7 text-center sm:p-9">
+        <h2 class="font-display text-2xl font-bold sm:text-3xl">Not sure which level you are?</h2>
+        <p class="mx-auto mt-2 max-w-md text-ink-soft">Take the free 3-minute level test — 12 questions, instant CEFR result, and a course recommendation.</p>
+        <a href="/level-test/" class="btn btn-navy mt-5">Take the Free Level Test <Icon name="arrow" size={17} /></a>
+      </div>
+    </div>
+  </section>
+  <CtaBanner />
+</Layout>

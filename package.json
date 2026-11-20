@@ -3,14 +3,17 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Emily Carter \u2014 English Teacher. Astro 7 + Tailwind CSS 4, from design screenshot.",
+  "description": "Emily Carter — English Teacher. Astro 7 + Tailwind CSS 4, from design screenshot.",
   "engines": {
     "node": ">=24"
   },
   "scripts": {
     "build": "astro build",
     "dev": "astro dev",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "audit": "node scripts/audit.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.5",
@@ -24,8 +27,11 @@
     "tailwindcss": "4.3.5"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.65.1",
     "playwright-core": "^1.65.1",
     "sharp": "^0.35.5",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.1"
   }
 }

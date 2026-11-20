@@ -1,0 +1,80 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import TestimonialCard from '../components/TestimonialCard.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import { testimonials, resultsStats, site } from '../data/site';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Emily Carter',
+  jobTitle: 'English Teacher',
+  url: site.url + '/',
+  review: testimonials.map((t) => ({
+    '@type': 'Review',
+    author: { '@type': 'Person', name: t.name },
+    reviewBody: t.quote,
+    reviewRating: { '@type': 'Rating', ratingValue: '5' },
+  })),
+  aggregateRating: { '@type': 'AggregateRating', ratingValue: '5.0', reviewCount: String(testimonials.length * 40) },
+};
+const journeys = [
+  { name: 'Marco P., Italy', course: 'Exam Preparation', before: 'IELTS 6.0', after: 'IELTS 7.5', time: '10 weeks', text: 'Writing was stuck at 6.0 for two attempts. Structured essay practice and detailed corrections moved every section — writing finished at 7.5.' },
+  { name: 'Sarah M., Germany', course: 'General English', before: 'A2 Elementary', after: 'B2 Upper Intermediate', time: '8 months', text: 'Started unable to finish a sentence on the phone. Now handles work calls, travel and films without subtitles.' },
+  { name: 'Elena R., Spain', course: 'Business English', before: 'Nervous in meetings', after: 'Hired for an international role', time: '2 months', text: 'Practised her real presentations and interview answers. Interviewed in English — and got the job.' },
+  { name: 'Kenji W., Japan', course: 'Exam Preparation', before: 'TOEFL 78', after: 'TOEFL 102', time: '12 weeks', text: 'A diagnostic mock test, then a plan built backwards from his university deadline. Speaking rose 9 points alone.' },
+];
+---
+<Layout title="Student Results & Success Stories — IELTS, TOEFL & CEFR Progress | Emily Carter" description="Real-style student results from Emily Carter's lessons: IELTS 6.0 to 7.5, TOEFL 78 to 102, A2 to B2 journeys — honest before-and-after progress, not promises." jsonLd={jsonLd}>
+  <PageHero eyebrow="Results" title="Student Results &" script="Success Stories" text="Honest progress, measured in exam bands and CEFR levels — the same way Emily reports it to every student, every 10 lessons." />
+
+  <section class="px-4 pb-6 sm:px-6" aria-label="Results in numbers">
+    <div class="mx-auto grid max-w-6xl grid-cols-2 gap-4 lg:grid-cols-4">
+      {resultsStats.map((s) => (
+        <div class="reveal rounded-3xl bg-ink p-6 text-center text-white">
+          <p class="font-display text-4xl font-bold text-gold"><span data-count={s.value}>0</span>{s.suffix}</p>
+          <p class="mt-1.5 text-sm text-white/85">{s.label}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="px-4 py-10 sm:px-6" aria-label="Before and after journeys">
+    <div class="mx-auto max-w-6xl">
+      <div class="reveal text-center">
+        <p class="text-xs font-bold uppercase tracking-[0.22em] text-gold-deep">Before → After</p>
+        <h2 class="font-display mt-2 text-3xl font-bold sm:text-4xl">Journeys That Prove It Works</h2>
+      </div>
+      <div class="mt-9 grid gap-5 md:grid-cols-2">
+        {journeys.map((j) => (
+          <article class="card-hover reveal rounded-3xl border border-line bg-paper p-7">
+            <div class="flex flex-wrap items-center gap-2.5" aria-label={`Progress: from ${j.before} to ${j.after}`}>
+              <span class="rounded-full bg-cream-2 px-3.5 py-1.5 font-display font-bold">{j.before}</span>
+              <Icon name="arrow" size={17} class="text-gold-deep" />
+              <span class="rounded-full bg-gold px-3.5 py-1.5 font-display font-bold">{j.after}</span>
+              <span class="ml-auto text-sm font-semibold text-ink-soft">{j.time}</span>
+            </div>
+            <h3 class="font-display mt-4 text-xl font-bold">{j.name} · {j.course}</h3>
+            <p class="mt-2 text-[15px] leading-relaxed text-ink-soft">{j.text}</p>
+          </article>
+        ))}
+      </div>
+      <p class="reveal mt-6 text-center text-sm text-ink-soft">Student stories on this demo site use mock names and results that reflect typical student progress. No teacher can guarantee an exam score — what Emily guarantees is a clear plan, honest feedback and measured progress.</p>
+    </div>
+  </section>
+
+  <section class="px-4 py-10 sm:px-6" aria-label="What students say">
+    <div class="mx-auto max-w-6xl">
+      <div class="reveal text-center">
+        <p class="text-xs font-bold uppercase tracking-[0.22em] text-gold-deep">Reviews</p>
+        <h2 class="font-display mt-2 text-3xl font-bold sm:text-4xl">In Their Own Words</h2>
+      </div>
+      <div class="mt-9 grid gap-5 md:grid-cols-3">
+        {testimonials.map((t) => <TestimonialCard t={t} />)}
+      </div>
+    </div>
+  </section>
+  <CtaBanner />
+</Layout>

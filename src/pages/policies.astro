@@ -1,0 +1,23 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import { policies } from '../data/site';
+---
+<Layout title="Lesson Policies — Rescheduling, Packs, Payment & Refunds | Emily Carter" description="Emily Carter's student-friendly lesson policies in plain English: free rescheduling with 12 hours notice, 6-month pack validity, secure payment and fair refunds.">
+  <PageHero eyebrow="Policies" title="The Rules, in" script="Plain English" text="Everything about rescheduling, packs, payment and refunds — written the way Emily explains it in your first lesson. No small print, no surprises." />
+  <section class="px-4 pb-14 sm:px-6">
+    <div class="mx-auto grid max-w-6xl gap-5 sm:grid-cols-2">
+      {policies.map((p) => (
+        <article class="card-hover reveal rounded-3xl border border-line bg-paper p-7">
+          <span class="grid h-12 w-12 place-items-center rounded-full bg-cream-2"><Icon name={p.icon} size={22} /></span>
+          <h2 class="font-display mt-4 text-xl font-bold">{p.title}</h2>
+          <p class="mt-2 text-[15px] leading-relaxed text-ink-soft">{p.text}</p>
+        </article>
+      ))}
+    </div>
+    <p class="reveal mx-auto mt-8 max-w-3xl text-center text-ink-soft">Anything unclear? <a href="/contact/" class="font-semibold text-ink underline decoration-gold decoration-2 underline-offset-4">Ask Emily directly</a> — or read the full <a href="/terms/" class="font-semibold text-ink underline decoration-gold decoration-2 underline-offset-4">terms</a> and <a href="/privacy/" class="font-semibold text-ink underline decoration-gold decoration-2 underline-offset-4">privacy policy</a>.</p>
+  </section>
+  <CtaBanner />
+</Layout>

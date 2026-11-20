@@ -1,0 +1,134 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import { levelQuestions } from '../lib/level-test';
+import { availability } from '../data/site';
+---
+<Layout title="Free English Level Test — Find Your CEFR Level in 3 Minutes | Emily Carter" description="Take Emily Carter's free CEFR level finder: 12 quick questions, an instant A1–C1 result and a personal course recommendation. No email needed.">
+  <PageHero eyebrow="Free Level Test" title="Find Your English" script="Level" text="12 quick questions, about 3 minutes. You get an instant CEFR result (A1–C1), what it means, and the course Emily recommends for you. No email, no sign-up.">
+    <p class="mt-4 inline-flex items-center gap-2 rounded-full bg-cream-2 px-4 py-2 text-sm font-semibold"><Icon name="clock" size={16} /> Takes ~3 minutes · {availability.spaces} trial spaces left for {availability.term}</p>
+  </PageHero>
+
+  <section class="px-4 pb-14 sm:px-6">
+    <div class="mx-auto max-w-3xl">
+      <div id="quiz-card" class="reveal rounded-[2rem] border border-line bg-paper p-6 sm:p-9">
+        <div class="flex items-center justify-between gap-4">
+          <p id="quiz-step" class="text-sm font-bold uppercase tracking-wider text-gold-deep" aria-live="polite">Question 1 of {levelQuestions.length}</p>
+          <p id="quiz-band" class="rounded-full bg-sky-soft px-3 py-1 text-xs font-bold">{levelQuestions[0].band} warm-up</p>
+        </div>
+        <div class="mt-3 h-2.5 overflow-hidden rounded-full bg-cream-2" role="progressbar" aria-label="Level test progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="quiz-progress-wrap">
+          <div id="quiz-progress" class="h-full rounded-full bg-gold transition-all duration-300" style="width:0%"></div>
+        </div>
+
+        <form id="quiz-form" class="mt-7" novalidate>
+          {levelQuestions.map((q, qi) => (
+            <fieldset class="quiz-q" data-q={qi} hidden={qi !== 0}>
+              <legend class="font-display text-xl font-bold leading-snug sm:text-2xl" tabindex="-1" data-qlegend>{q.prompt}</legend>
+              <div class="mt-5 grid gap-3">
+                {q.options.map((opt, oi) => (
+                  <label class="flex min-h-[52px] cursor-pointer items-center gap-3 rounded-2xl border-[1.5px] border-line bg-cream px-4 py-3 font-medium transition hover:border-ink has-[:checked]:border-ink has-[:checked]:bg-cream-2 has-[:focus-visible]:outline has-[:focus-visible]:outline-[3px] has-[:focus-visible]:outline-gold">
+                    <input type="radio" name={q.id} value={oi} class="h-5 w-5 shrink-0 accent-[#122840]" />
+                    <span>{opt}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          ))}
+          <p id="quiz-error" class="field-error" role="alert"></p>
+          <div class="mt-7 flex flex-wrap items-center justify-between gap-3">
+            <button type="button" id="quiz-prev" class="btn btn-outline" disabled>← Back</button>
+            <button type="button" id="quiz-next" class="btn btn-navy">Next question <Icon name="arrow" size={17} /></button>
+          </div>
+        </form>
+        <noscript><p class="mt-4 rounded-2xl bg-cream-2 p-4 font-medium">This test needs JavaScript to score your answers. You can still <a class="font-semibold underline" href="/levels/">read the CEFR level guide</a> or <a class="font-semibold underline" href="/book/">book a free trial</a> and Emily will check your level with you.</p></noscript>
+      </div>
+
+      <div id="quiz-result" tabindex="-1" class="hidden rounded-[2rem] border border-line bg-paper p-6 text-center outline-none sm:p-10">
+        <p class="text-xs font-bold uppercase tracking-[0.22em] text-gold-deep">Your Result</p>
+        <p class="font-display mt-3 text-6xl font-bold" id="result-band">B1</p>
+        <p class="mt-1 font-semibold" id="result-label">B1 — Intermediate</p>
+        <p class="mt-2 text-sm text-ink-soft" id="result-score"></p>
+        <p class="mx-auto mt-4 max-w-lg leading-relaxed text-ink-soft" id="result-summary"></p>
+        <div class="mx-auto mt-7 flex max-w-lg flex-col gap-3 sm:flex-row">
+          <a id="result-book" href="/book/" class="btn btn-navy flex-1">Book a Free Trial Lesson <Icon name="arrow" size={17} /></a>
+          <a id="result-course" href="/courses/" class="btn btn-outline flex-1">See Your Recommended Course</a>
+        </div>
+        <p class="mt-4 text-sm text-ink-soft">Recommended for you: <strong id="result-course-name" class="text-ink"></strong></p>
+        <button type="button" id="quiz-restart" class="mt-5 min-h-[44px] font-semibold text-ink underline decoration-gold decoration-2 underline-offset-4">Take the test again</button>
+      </div>
+
+      <div class="reveal mt-8 grid gap-4 sm:grid-cols-3">
+        {[['doc', 'Honest result', 'Scored by CEFR bands — the same scale universities and employers use.'], ['mail', 'No email needed', 'Your result appears on this page instantly. Nothing is sent or stored.'], ['calendar', 'A real plan next', 'Bring your result to a free trial and Emily turns it into a study plan.']].map(([icon, t, d]) => (
+          <div class="rounded-3xl border border-line bg-paper p-5">
+            <span class="grid h-11 w-11 place-items-center rounded-full bg-cream-2"><Icon name={icon} size={20} /></span>
+            <h2 class="font-display mt-3 text-lg font-bold">{t}</h2>
+            <p class="mt-1 text-sm leading-relaxed text-ink-soft">{d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CtaBanner />
+
+  <script>
+    import { levelQuestions, scoreLevelTest, levelLabel } from '../lib/level-test';
+    const qs = Array.from(document.querySelectorAll<HTMLElement>('.quiz-q'));
+    const stepEl = document.getElementById('quiz-step');
+    const bandEl = document.getElementById('quiz-band');
+    const bar = document.getElementById('quiz-progress');
+    const barWrap = document.getElementById('quiz-progress-wrap');
+    const errEl = document.getElementById('quiz-error');
+    const prevBtn = document.getElementById('quiz-prev') as HTMLButtonElement;
+    const nextBtn = document.getElementById('quiz-next') as HTMLButtonElement;
+    let current = 0;
+    function show(i: number, focus = true) {
+      current = i;
+      qs.forEach((q, qi) => { q.hidden = qi !== i; });
+      if (stepEl) stepEl.textContent = `Question ${i + 1} of ${qs.length}`;
+      if (bandEl) bandEl.textContent = `${levelQuestions[i].band} level`;
+      if (bar) bar.style.width = `${(i / qs.length) * 100}%`;
+      barWrap?.setAttribute('aria-valuenow', String(Math.round((i / qs.length) * 100)));
+      prevBtn.disabled = i === 0;
+      nextBtn.innerHTML = i === qs.length - 1 ? 'See my result' : 'Next question →';
+      if (errEl) errEl.textContent = '';
+      if (focus) qs[i].querySelector<HTMLElement>('[data-qlegend]')?.focus({ preventScroll: false });
+    }
+    function answered(i: number) {
+      return !!qs[i].querySelector<HTMLInputElement>('input[type="radio"]:checked');
+    }
+    prevBtn?.addEventListener('click', () => show(Math.max(0, current - 1)));
+    nextBtn?.addEventListener('click', () => {
+      if (!answered(current)) { if (errEl) errEl.textContent = 'Please choose an answer to continue.'; qs[current].querySelector<HTMLInputElement>('input[type="radio"]')?.focus(); return; }
+      if (current < qs.length - 1) { show(current + 1); return; }
+      const answers = qs.map((q) => {
+        const checked = q.querySelector<HTMLInputElement>('input[type="radio"]:checked');
+        return checked ? Number(checked.value) : -1;
+      });
+      const r = scoreLevelTest(answers);
+      document.getElementById('quiz-card')?.classList.add('hidden');
+      const result = document.getElementById('quiz-result');
+      result?.classList.remove('hidden');
+      const set = (id: string, txt: string) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
+      set('result-band', r.band);
+      set('result-label', levelLabel(r.band));
+      set('result-score', `You answered ${r.correct} of ${r.total} questions correctly.`);
+      set('result-summary', r.summary);
+      set('result-course-name', r.courseTitle);
+      const book = document.getElementById('result-book') as HTMLAnchorElement | null;
+      if (book) book.href = `/book/?level=${encodeURIComponent(r.band)}&course=${encodeURIComponent(r.courseSlug)}`;
+      const course = document.getElementById('result-course') as HTMLAnchorElement | null;
+      if (course) course.href = `/courses/${r.courseSlug}/`;
+      result?.focus();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    document.getElementById('quiz-restart')?.addEventListener('click', () => {
+      document.getElementById('quiz-result')?.classList.add('hidden');
+      document.getElementById('quiz-card')?.classList.remove('hidden');
+      qs.forEach((q) => q.querySelectorAll<HTMLInputElement>('input[type="radio"]').forEach((r) => { r.checked = false; }));
+      show(0);
+    });
+    show(0, false);
+  </script>
+</Layout>

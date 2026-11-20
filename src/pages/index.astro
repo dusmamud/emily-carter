@@ -6,7 +6,7 @@ import CourseCard from '../components/CourseCard.astro';
 import TestimonialCard from '../components/TestimonialCard.astro';
 import CtaBanner from '../components/CtaBanner.astro';
 import FaqList from '../components/FaqList.astro';
-import { courses, testimonials, credentials, steps, faqs, posts, pricing, gbp, site } from '../data/site';
+import { courses, testimonials, credentials, steps, faqs, posts, pricing, gbp, site, stats, marqueeItems, availability, introVideo } from '../data/site';
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -37,11 +37,12 @@ const avatars = [
           Master English<br />
           <span class="font-script script-underline text-[clamp(2.8rem,7.5vw,4.8rem)] font-semibold leading-[1.05] text-ink">with Confidence</span>
         </h1>
-        <p data-hero class="mt-5 max-w-md text-lg leading-relaxed text-ink-soft">Professional English lessons, personalized for your goals — study smarter, speak better. Lessons from {gbp(24)}, for levels A1–C1.</p>
+        <p data-hero class="mt-5 max-w-md text-lg leading-relaxed text-ink-soft">Professional English lessons, personalized for your goals — study smarter, speak better. For adults, teens and young learners (ages 7+). Lessons from {gbp(24)}, for levels A1–C1.</p>
         <div data-hero class="mt-7 flex flex-wrap items-center gap-3">
           <a href="/book/" class="btn btn-navy" data-magnetic>Book a Free Trial Lesson <Icon name="arrow" size={18} /></a>
-          <a href="/courses/" class="btn btn-outline"><span class="grid h-6 w-6 place-items-center rounded-full bg-ink text-white"><Icon name="play" size={11} /></span> Explore My Courses</a>
+          <button type="button" class="btn btn-outline" data-intro-open aria-haspopup="dialog"><span class="grid h-6 w-6 place-items-center rounded-full bg-ink text-white"><Icon name="play" size={11} /></span> Watch Intro ({introVideo.duration})</button>
         </div>
+        <p data-hero class="mt-4 inline-flex items-center gap-2 rounded-full bg-gold px-4 py-2 text-sm font-bold text-ink"><Icon name="sparkle" size={15} /> Only {availability.spaces} lesson spaces left for {availability.term}</p>
         <div data-hero class="mt-8 flex items-center gap-3">
           <span class="flex -space-x-3">
             {avatars.map((a) => <img src={`/images/${a.img}-480.jpg`} alt={a.alt} width="44" height="44" loading="lazy" class="h-11 w-11 rounded-full border-2 border-cream object-cover" />)}
@@ -99,7 +100,50 @@ const avatars = [
       <div class="mt-9 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {courses.map((c) => <CourseCard course={c} />)}
       </div>
-      <p class="reveal mt-7 text-center text-ink-soft">Not sure which course fits? <a href="/book/" class="font-semibold text-ink underline decoration-gold decoration-2 underline-offset-4">Book a free trial</a> and I'll recommend the right one for your level and goals.</p>
+      <p class="reveal mt-7 text-center text-ink-soft">Not sure which course fits? Take the <a href="/level-test/" class="font-semibold text-ink underline decoration-gold decoration-2 underline-offset-4">free 3-minute level test</a> or <a href="/book/" class="font-semibold text-ink underline decoration-gold decoration-2 underline-offset-4">book a free trial</a> and I'll recommend the right one for your level and goals.</p>
+    </div>
+  </section>
+
+  <!-- STATS + MARQUEE -->
+  <section class="px-4 py-6 sm:px-6" aria-label="Emily in numbers">
+    <div class="mx-auto grid max-w-6xl grid-cols-2 gap-4 lg:grid-cols-4">
+      {stats.map((s) => (
+        <div class="reveal rounded-3xl border border-line bg-paper p-6 text-center">
+          <p class="font-display text-4xl font-bold"><span data-count={s.value}>0</span>{s.suffix}</p>
+          <p class="mt-1 text-sm font-medium text-ink-soft">{s.label}</p>
+        </div>
+      ))}
+    </div>
+    <div class="marquee reveal mx-auto mt-6 max-w-6xl overflow-hidden rounded-full border border-line bg-paper py-3" aria-label="Student highlights">
+      <div class="marquee-track">
+        {[0, 1].map(() => (
+          <span class="flex shrink-0 items-center" aria-hidden="true">
+            {marqueeItems.map((m) => <span class="flex items-center gap-2 whitespace-nowrap px-5 text-sm font-semibold"><Icon name="sparkle" size={14} class="text-gold-deep" />{m}</span>)}
+          </span>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- WHO IT'S FOR -->
+  <section class="px-4 py-12 sm:px-6" aria-label="Who lessons are for">
+    <div class="mx-auto max-w-6xl">
+      <div class="reveal text-center">
+        <p class="text-xs font-bold uppercase tracking-[0.22em] text-gold-deep">Who It's For</p>
+        <h2 class="font-display mt-2 text-3xl font-bold sm:text-4xl">Lessons for Every Age</h2>
+      </div>
+      <div class="mt-9 grid gap-5 md:grid-cols-2">
+        <article class="card-hover reveal rounded-[2rem] bg-sky-soft p-7 sm:p-9">
+          <h3 class="font-display text-2xl font-bold">Kids & Teens <span class="font-script text-gold-deep">ages 7–17</span></h3>
+          <p class="mt-3 leading-relaxed text-ink-soft">Fun, game-based lessons with safeguarding first: parents book, parents get progress reports, parents are welcome in every lesson. Shorter lessons for younger children.</p>
+          <a href="/for-kids-teens/" class="btn btn-navy mt-6">English for Kids & Teens <Icon name="arrow" size={17} /></a>
+        </article>
+        <article class="card-hover reveal rounded-[2rem] bg-peach p-7 sm:p-9">
+          <h3 class="font-display text-2xl font-bold">Adults <span class="font-script text-gold-deep">work, exams & life</span></h3>
+          <p class="mt-3 leading-relaxed text-ink-soft">Efficient lessons built on your real goals — your meetings, your exam date, your move abroad. Flexible times across time zones and honest progress reports.</p>
+          <a href="/for-adults/" class="btn btn-navy mt-6">English for Adults <Icon name="arrow" size={17} /></a>
+        </article>
+      </div>
     </div>
   </section>
 
@@ -186,6 +230,30 @@ const avatars = [
       <p class="reveal mt-6 text-center"><a href="/faq/" class="font-semibold text-ink underline decoration-gold decoration-2 underline-offset-4">See all questions</a></p>
     </div>
   </section>
+
+  <!-- MEET EMILY — intro video dialog -->
+  <dialog id="intro-dialog" class="intro-dialog" aria-labelledby="intro-title">
+    <div class="overflow-hidden rounded-[1.75rem] bg-paper shadow-2xl">
+      <div class="flex items-center justify-between gap-4 px-6 py-4">
+        <h2 id="intro-title" class="font-display text-xl font-bold">Meet Emily <span class="font-script text-gold-deep">your teacher</span></h2>
+        <button type="button" class="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-line" data-intro-close aria-label="Close intro video"><Icon name="x" size={19} /></button>
+      </div>
+      <video id="intro-video" class="aspect-video w-full bg-ink" controls preload="none" poster={introVideo.poster} playsinline>
+        <source src={introVideo.src} type="video/mp4" />
+        <track kind="captions" src={introVideo.captions} srclang="en" label="English" default />
+        Your browser does not support video — you can read Emily's introduction below instead.
+      </video>
+      <div class="px-6 py-5">
+        <details>
+          <summary class="flex min-h-[44px] cursor-pointer items-center font-semibold">Read the introduction instead</summary>
+          <div class="space-y-2 pb-2 pt-1 text-[15px] leading-relaxed text-ink-soft">
+            {introVideo.transcript.map((line) => <p>{line}</p>)}
+          </div>
+        </details>
+        <a href="/book/" class="btn btn-navy mt-4 w-full sm:w-auto">Book a Free Trial Lesson <Icon name="arrow" size={17} /></a>
+      </div>
+    </div>
+  </dialog>
 
   <CtaBanner />
 </Layout>

@@ -13,7 +13,7 @@ const jsonLd = {
   <PageHero eyebrow="My Courses" title="What I" script="Teach" text="Every course starts with a free trial lesson and a personal plan. Choose the goal that sounds like you — or let me recommend one." />
   <section class="px-4 pb-14 sm:px-6">
     <div class="mx-auto grid max-w-6xl gap-5 sm:grid-cols-2">
-      {courses.map((c) => <CourseCard course={c} />)}
+      {courses.map((c) => <CourseCard course={c} headingLevel="h2" />)}
     </div>
   </section>
   <CtaBanner />

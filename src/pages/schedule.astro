@@ -1,0 +1,48 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import { schedule, availability, contact } from '../data/site';
+---
+<Layout title="Lesson Schedule & Availability — Emily Carter, English Teacher" description="Emily Carter's weekly lesson times (UK time), current availability for December 2026, and how booking works across time zones.">
+  <PageHero eyebrow="Schedule" title="Weekly Lesson" script="Times" text="Regular weekly slots, in UK time. Your free trial can use any free slot — and your regular lessons usually keep the same time each week.">
+    <p class="mt-4 inline-flex items-center gap-2 rounded-full bg-gold px-4 py-2 text-sm font-bold text-ink"><Icon name="sparkle" size={16} /> {availability.note}</p>
+  </PageHero>
+
+  <section class="px-4 pb-12 sm:px-6">
+    <div class="mx-auto max-w-5xl">
+      <div class="reveal overflow-x-auto rounded-[2rem] border border-line bg-paper">
+        <table class="w-full min-w-[640px] border-collapse text-left">
+          <caption class="sr-only">Weekly lesson availability by day, in UK time</caption>
+          <thead>
+            <tr class="border-b border-line bg-cream-2">
+              <th scope="col" class="px-5 py-4 font-display">Day</th>
+              <th scope="col" class="px-5 py-4 font-display">Lesson start times (UK)</th>
+              <th scope="col" class="px-5 py-4 font-display">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {schedule.days.map((d) => (
+              <tr class="border-b border-line/60 last:border-0">
+                <th scope="row" class="px-5 py-4 font-bold">{d.day}</th>
+                <td class="px-5 py-4">
+                  {d.slots.length ? (
+                    <span class="flex flex-wrap gap-1.5">{d.slots.map((s) => <span class="rounded-full bg-sky-soft px-3 py-1 text-sm font-semibold">{s}</span>)}</span>
+                  ) : <span class="text-ink-soft">—</span>}
+                </td>
+                <td class="px-5 py-4 font-semibold">{d.slots.length ? <span class="text-gold-deep">Booking open</span> : <span class="text-ink-soft">Closed — rest day</span>}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="reveal mt-5 flex gap-2 rounded-3xl bg-sky-soft p-5 text-[15px] leading-relaxed"><Icon name="globe" size={19} class="mt-0.5 shrink-0" /><span>{schedule.timezoneNote} Teaching hours: {contact.hours}.</span></p>
+      <div class="reveal mt-7 text-center">
+        <a href="/book/" class="btn btn-navy">Book a Free Trial in Any Open Slot <Icon name="arrow" size={17} /></a>
+        <p class="mt-3 text-sm text-ink-soft">Need a time you cannot see? <a href="/contact/" class="font-semibold text-ink underline decoration-gold decoration-2 underline-offset-4">Ask Emily</a> — waiting-list swaps open up most weeks.</p>
+      </div>
+    </div>
+  </section>
+  <CtaBanner />
+</Layout>

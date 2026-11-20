@@ -53,6 +53,20 @@ menuBtn?.addEventListener('click', () => {
   menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
 });
 
+// Meet Emily intro video dialog
+const introDialog = document.getElementById('intro-dialog') as HTMLDialogElement | null;
+const introVideo = document.getElementById('intro-video') as HTMLVideoElement | null;
+if (introDialog) {
+  document.querySelectorAll('[data-intro-open]').forEach((btn) => btn.addEventListener('click', () => {
+    introDialog.showModal();
+    introVideo?.play().catch(() => { /* user can press play manually */ });
+  }));
+  const closeIntro = () => { introVideo?.pause(); introDialog.close(); };
+  introDialog.querySelectorAll('[data-intro-close]').forEach((btn) => btn.addEventListener('click', closeIntro));
+  introDialog.addEventListener('click', (e) => { if (e.target === introDialog) closeIntro(); });
+  introDialog.addEventListener('close', () => introVideo?.pause());
+}
+
 // FAQ accordion
 document.querySelectorAll<HTMLElement>('[data-faq-btn]').forEach((btn) => {
   btn.addEventListener('click', () => {

@@ -1,0 +1,54 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from './PageHero.astro';
+import Icon from './Icon.astro';
+import FaqList from './FaqList.astro';
+import CtaBanner from './CtaBanner.astro';
+import Picture from './Picture.astro';
+
+interface Props {
+  seg: {
+    title: string; script: string; intro: string;
+    points: { title: string; text: string }[];
+    faqs: { q: string; a: string }[];
+  };
+  metaTitle: string;
+  metaDescription: string;
+  image: string;
+  imageAlt: string;
+  otherHref: string;
+  otherLabel: string;
+}
+const { seg, metaTitle, metaDescription, image, imageAlt, otherHref, otherLabel } = Astro.props;
+---
+<Layout title={metaTitle} description={metaDescription}>
+  <PageHero eyebrow="Who Lessons Are For" title={seg.title} text={seg.intro}>
+    <p class="mt-4 inline-flex items-center gap-2 rounded-full bg-cream-2 px-4 py-2 text-sm font-semibold">{seg.script}</p>
+  </PageHero>
+  <section class="px-4 pb-6 sm:px-6">
+    <div class="mx-auto grid max-w-6xl items-center gap-8 lg:grid-cols-2">
+      <div class="reveal overflow-hidden rounded-[2rem] shadow-[0_24px_50px_-28px_rgba(18,40,64,0.5)]">
+        <Picture name={image} alt={imageAlt} width={1000} height={760} sizes="(max-width: 1024px) 92vw, 540px" imgClass="aspect-[4/3] w-full object-cover" />
+      </div>
+      <div class="space-y-4">
+        {seg.points.map((p) => (
+          <div class="reveal rounded-3xl border border-line bg-paper p-6">
+            <h2 class="font-display flex items-center gap-2.5 text-xl font-bold"><Icon name="check" size={20} class="shrink-0 text-gold-deep" />{p.title}</h2>
+            <p class="mt-2 text-[15px] leading-relaxed text-ink-soft">{p.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section class="px-4 py-10 sm:px-6" aria-label="Questions">
+    <div class="mx-auto max-w-3xl">
+      <div class="reveal text-center">
+        <p class="text-xs font-bold uppercase tracking-[0.22em] text-gold-deep">Questions</p>
+        <h2 class="font-display mt-2 text-3xl font-bold sm:text-4xl">Asked Most Often</h2>
+      </div>
+      <div class="mt-8"><FaqList items={seg.faqs} /></div>
+      <p class="reveal mt-7 text-center text-ink-soft">Looking for the other group? <a href={otherHref} class="font-semibold text-ink underline decoration-gold decoration-2 underline-offset-4">{otherLabel}</a></p>
+    </div>
+  </section>
+  <CtaBanner />
+</Layout>
