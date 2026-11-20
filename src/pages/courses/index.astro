@@ -6,7 +6,7 @@ import CtaBanner from '../../components/CtaBanner.astro';
 import { courses } from '../../data/site';
 const jsonLd = {
   '@context': 'https://schema.org', '@type': 'ItemList',
-  itemListElement: courses.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.title, url: `https://emily-carter.pages.dev/courses/${c.slug}/` })),
+  itemListElement: courses.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.title, url: `https://emilycarter-english.pages.dev/courses/${c.slug}/` })),
 };
 ---
 <Layout title="English Courses — General, Business, Conversation & Exam Preparation | Emily Carter" description="Four personalised English courses with Emily Carter: General English, Business English, Conversation Skills and IELTS & TOEFL Exam Preparation. Levels A1–C1, from £24 per lesson." jsonLd={jsonLd}>

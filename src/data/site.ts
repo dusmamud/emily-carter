@@ -3,7 +3,7 @@
 export const site = {
   name: 'Emily Carter',
   role: 'English Teacher',
-  url: 'https://emily-carter.pages.dev',
+  url: 'https://emilycarter-english.pages.dev',
   description:
     'Professional English lessons with Emily Carter, a TESOL-certified teacher. General, Business, Conversation and Exam Preparation courses — personalised for your goals. Book a free trial lesson.',
   year: 2026,

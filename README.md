@@ -33,11 +33,11 @@ node scripts/screenshot.mjs       # with preview running on :4321
 ```
 
 ## Live
-- **Live site:** https://emily-carter.pages.dev
+- **Live site:** https://emilycarter-english.pages.dev
 - **Repo:** https://github.com/dusmamud/emily-carter
 - Deployed to Cloudflare Pages via GitHub Actions
   (`.github/workflows/deploy.yml`, Creatix pattern) on every push to
-  `main`: build → `wrangler pages deploy dist --project-name=emily-carter`.
+  `main`: build → `wrangler pages deploy dist --project-name=emilycarter-english`.
   Cloudflare credentials live only in the repo's GitHub Actions secrets
   (`CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`) — never in this repo.
 

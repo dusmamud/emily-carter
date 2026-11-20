@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   output: 'static',
-  site: 'https://emily-carter.pages.dev',
+  site: 'https://emilycarter-english.pages.dev',
   trailingSlash: 'always',
   integrations: [sitemap()],
   vite: { plugins: [tailwindcss()] },
